@@ -1,21 +1,23 @@
-import  {useState, useEffect} from 'react';
-import axios from 'axios'
+import {useState, useEffect} from 'react';
 
-export const DataFetching=(url)=>{
 
-    const [posts,setPosts] = useState([]);
+export const useFetch = (url)=>{
+
+    const [status, setStatus] = useState(true);
+    const [users, setUsers] = useState([]);
+
+    const getUserlist = async ()=>{
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        //console.log(data);
+        setUsers(data);
+        setStatus(false);
+    }
 
     useEffect(()=>{
-        axios.get(url)
-        .then(res =>{
-            console.log(res);
-            setPosts(res.data);
-        })
-        .catch(error=>{
-            console.log(error)
-        },[0])
-    })
+    	getUserlist();
+    }, []);
     
-    return posts;
-   
+    return { status, users };
 }

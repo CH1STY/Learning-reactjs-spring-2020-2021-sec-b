@@ -29,6 +29,10 @@ const DigitalDiary=()=>{
 
         </Route>
 
+        <Route path='/edit/:id'>
+        
+        </Route>
+
 
       </Switch>
     </Router>

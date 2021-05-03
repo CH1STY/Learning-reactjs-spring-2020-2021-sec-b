@@ -20,7 +20,7 @@ code {
   
 }
 
-button{
+.navButton{
   margin-right: 10px;
   background-color: #4CAF50; /* Green */
   border: none;
@@ -34,7 +34,23 @@ button{
 
 .viewTable{
   margin-top: 50px;
+  border: 2px solid black;
 }
 .viewTable th,td{
   width: 200px;
+  text-align: center;
+  border: 2px solid black;
+  font-size: 14px;
+
+
+}
+
+.inlineButton{
+  margin-right: 10px;
+  background-color: #4CAF50; /* Green */
+  text-decoration: none;
+  color: white;
+  
+  text-align: center;
+ 
 }
