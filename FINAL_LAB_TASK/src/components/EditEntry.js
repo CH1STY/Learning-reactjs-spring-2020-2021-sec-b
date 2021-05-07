@@ -1,26 +1,47 @@
-import {useState} from 'react';
+import {useHistory,useParams} from 'react-router-dom';
+import {useState,useEffect} from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
-import {useHistory} from 'react-router-dom';
 
-export const AddToDiary=()=>{
+export const EditEntry = () =>{
 
     let history = useHistory();
-    const [detailsError,setDetailsError] = useState();
-    const [priorityError,setPriorityError] = useState();
-
     const MySwal = withReactContent(Swal);
 
+    const [detailsError,setDetailsError] = useState();
+    const [priorityError,setPriorityError] = useState();
+    const {id:entryId} = useParams();
+
+    var url = "http://localhost/reactTask2ndTry/public/api/editDiary/"+entryId;
+  
+    
     const [userInput,setInput] = useState({
         details:'',
         priority:'0',
-        userId:localStorage.getItem('userId'),
     });
+
+
+    useEffect(async () => {
+        axios
+        .get(url)
+        .then((response) => {
+            console.log(response);
+            setInput({
+                details:response.data.details,
+                priority:response.data.priority,
+            
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    },[])
+
+
+
 
     const FormSubmit = (e) => {
         e.preventDefault();
-        var url = "http://localhost/reactTask2ndTry/public/api/addToDiary";
         
         const fetchData = async () =>{
             const res = await axios.post(url,userInput);
@@ -37,9 +58,13 @@ export const AddToDiary=()=>{
 
                 MySwal.fire({
                 
-                    title: 'Entry Added Successfully',
+                    title: 'Entry Updated Successfully',
                     icon: 'success',
                     showCancelButton: false,
+                }).then(res=>{
+                    if(res.isConfirmed){
+                        history.push('/diary/viewAll');
+                    }
                 });
 
 
@@ -56,6 +81,7 @@ export const AddToDiary=()=>{
         fetchData();
   
     }
+   
 
     const changeUser = (e)=>{
         const attar = e.target.name;
@@ -63,11 +89,13 @@ export const AddToDiary=()=>{
         const user = {...userInput, [attar] : value}; 
         setInput(user);
         
-      }
+    }
     
-    return (
+
+    return(
         <div align="center">
-            <h1>Adding to Diary</h1>
+            <h1>Editing From Diary</h1>
+            <h2 className="userName">Entry Id: {entryId}</h2>
             <form onSubmit={FormSubmit}>
 
                 <table id="customers">
@@ -90,7 +118,7 @@ export const AddToDiary=()=>{
                             <td>
                                 <div className="form-group">
                                     
-                                    <select className="form-select" onChange={changeUser} value={userInput.priority}  name="priority" id="">
+                                    <select className="form-select" onChange={changeUser} value ={userInput.priority} name="priority" id="">
                                         <option value="0" >Select a Priority</option>
                                         <option value="1" >High</option>
                                         <option value="2" >Medium</option>
@@ -102,7 +130,7 @@ export const AddToDiary=()=>{
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan='2'><button className="btn btn-primary">ADD</button></td>
+                            <td colSpan='2'><button className="btn btn-primary">Update</button></td>
                         </tr>
                         
                     </tbody>
@@ -113,5 +141,4 @@ export const AddToDiary=()=>{
             </form>
         </div>
     )
-
 }
