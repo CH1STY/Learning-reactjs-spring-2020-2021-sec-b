@@ -38,7 +38,7 @@ export const ViewAll=()=>{
 
     return(
         <div align="center" >
-            
+            <h1 color="red">ENTRIES</h1>
             <table id="customers">
                 <thead>
                     <tr>

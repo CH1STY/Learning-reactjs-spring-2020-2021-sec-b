@@ -7,6 +7,7 @@ import {AddToDiary} from './components/AddToDiary';
 import {ViewAll} from './components/ViewFromDiary';
 import {Login} from './components/Login';
 import {EditEntry} from './components/EditEntry';
+import {Home} from './components/Home'; 
 import './index.css';
 
 
@@ -27,11 +28,7 @@ const DigitalDiary=()=>{
         <Route path='/diary'>
             <NavBar/>
             <Route exact path="/diary">
-              <div  align="center">
-                <h1>Welcom To Digital Diary!</h1>
-                <h2 className="userName">{localStorage.getItem('username')}</h2>
-
-              </div>
+              <Home></Home>
             </Route>
             <Route path='/diary/add'>
               <AddToDiary/>

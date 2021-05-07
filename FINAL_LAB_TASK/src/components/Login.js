@@ -44,7 +44,7 @@ export const Login = ()=>{
             else
             {
                 setError('');
-               
+                console.log(res.data.username);
                 localStorage.setItem('userId',res.data.id);
                 localStorage.setItem('username',res.data.username);
 
